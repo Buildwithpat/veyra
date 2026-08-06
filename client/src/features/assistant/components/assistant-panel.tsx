@@ -53,9 +53,14 @@ export function AssistantPanel({ open, onOpenChange, seed, onSeedConsumed }: Ass
       <SheetContent side="right" className="flex w-full flex-col gap-0 p-0 sm:max-w-md">
         <SheetHeader className="border-b border-border pr-10 pb-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <VeyraAiIcon className="size-4 text-primary" />
-              <SheetTitle>Veyra Assistant</SheetTitle>
+            <div className="flex items-center gap-2.5">
+              <div className="flex size-8 items-center justify-center rounded-full bg-linear-to-br from-primary/20 to-primary/5 text-primary ring-1 ring-primary/15">
+                <VeyraAiIcon className="size-4" />
+              </div>
+              <div className="flex flex-col">
+                <SheetTitle className="leading-tight">Veyra Assistant</SheetTitle>
+                <p className="text-xs text-muted-foreground">Fabric sourcing, on demand</p>
+              </div>
             </div>
             {messages.length > 0 && (
               <Button variant="ghost" size="sm" className="h-7 px-2 text-xs" onClick={handleClear}>
@@ -69,7 +74,7 @@ export function AssistantPanel({ open, onOpenChange, seed, onSeedConsumed }: Ass
           {messages.length === 0 ? (
             <AssistantEmptyState onPromptSelect={handleSend} />
           ) : (
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-7">
               {messages.map((message, index) => (
                 <MessageBubble
                   key={message.id}
