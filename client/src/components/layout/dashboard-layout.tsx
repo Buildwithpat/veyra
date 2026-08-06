@@ -1,0 +1,122 @@
+import { useState } from "react"
+import { Link, Outlet, useLocation } from "react-router-dom"
+import { LayoutDashboard, LogOut, Menu, Package, ShoppingCart, User } from "lucide-react"
+
+import { Button } from "@/components/ui/button"
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
+import { useAuth } from "@/features/auth/hooks/use-auth"
+import { cn } from "@/lib/utils"
+
+const buyerLinks = [
+  { to: "/dashboard", label: "Overview", icon: LayoutDashboard },
+  { to: "/dashboard/orders", label: "Orders", icon: ShoppingCart },
+  { to: "/dashboard/profile", label: "Profile", icon: User },
+]
+
+const supplierLinks = [
+  { to: "/supplier/dashboard", label: "Overview", icon: LayoutDashboard },
+  { to: "/supplier/inventory", label: "Inventory", icon: Package },
+  { to: "/supplier/orders", label: "Orders", icon: ShoppingCart },
+  { to: "/supplier/profile", label: "Profile", icon: User },
+]
+
+function DashboardNavLinks({
+  links,
+  location,
+  onNavigate,
+}: {
+  links: typeof buyerLinks
+  location: ReturnType<typeof useLocation>
+  onNavigate?: () => void
+}) {
+  return (
+    <nav className="flex flex-1 flex-col gap-1">
+      {links.map(({ to, label, icon: Icon }) => {
+        const active =
+          to === "/dashboard" || to === "/supplier/dashboard"
+            ? location.pathname === to
+            : location.pathname.startsWith(to)
+
+        return (
+          <Link
+            key={to}
+            to={to}
+            onClick={onNavigate}
+            className={cn(
+              "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
+              active
+                ? "bg-accent text-foreground"
+                : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+            )}
+          >
+            <Icon className="size-4" />
+            {label}
+          </Link>
+        )
+      })}
+    </nav>
+  )
+}
+
+export function DashboardLayout() {
+  const { user, logout } = useAuth()
+  const location = useLocation()
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const links = user?.role === "supplier" ? supplierLinks : buyerLinks
+
+  return (
+    <div className="flex min-h-svh flex-col md:flex-row">
+      <header className="border-border/60 bg-surface flex items-center justify-between border-b px-4 py-3 md:hidden">
+        <Link to="/" className="text-lg font-semibold tracking-tight">
+          Veyra
+        </Link>
+        <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setMobileOpen(true)}
+          >
+            <Menu className="size-5" />
+            <span className="sr-only">Open dashboard menu</span>
+          </Button>
+          <SheetContent side="left" className="flex w-64 flex-col px-4 py-6">
+            <SheetHeader className="px-2">
+              <SheetTitle>Veyra</SheetTitle>
+            </SheetHeader>
+            <DashboardNavLinks
+              links={links}
+              location={location}
+              onNavigate={() => setMobileOpen(false)}
+            />
+            <Button variant="ghost" size="sm" className="justify-start gap-3" onClick={logout}>
+              <LogOut className="size-4" />
+              Sign out
+            </Button>
+          </SheetContent>
+        </Sheet>
+      </header>
+
+      <aside className="border-border/60 bg-surface hidden w-64 flex-col border-r px-4 py-6 md:flex">
+        <Link to="/" className="mb-8 px-2 text-lg font-semibold tracking-tight">
+          Veyra
+        </Link>
+
+        <DashboardNavLinks links={links} location={location} />
+
+        <Button
+          variant="ghost"
+          size="sm"
+          className="justify-start gap-3"
+          onClick={logout}
+        >
+          <LogOut className="size-4" />
+          Sign out
+        </Button>
+      </aside>
+
+      <main className="flex-1 overflow-y-auto p-5 md:p-8">
+        <Outlet />
+      </main>
+    </div>
+  )
+}

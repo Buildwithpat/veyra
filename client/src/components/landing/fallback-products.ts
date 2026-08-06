@@ -1,0 +1,205 @@
+import type { Product } from "@/features/marketplace/types"
+
+/**
+ * The landing page's Fabric Library, Marketplace Preview and AI Search
+ * sections should never look broken or empty, even before the marketplace
+ * has real listings. These twelve entries — one per weave family — stand in
+ * only when the live catalog can't supply enough real products; they're
+ * shaped exactly like real `Product` records so every section can treat
+ * real and fallback data identically.
+ */
+function supplier(name: string, country: string, city: string, certs: string[]) {
+  return {
+    id: `fallback-supplier-${name.toLowerCase().replace(/\s+/g, "-")}`,
+    name,
+    city,
+    country,
+    verified: true,
+    rating: 4.6,
+    yearsInBusiness: 12,
+    responseTime: "< 4 hrs",
+    certifications: certs,
+  }
+}
+
+function category(name: string, slug: string) {
+  return { id: `fallback-cat-${slug}`, slug, name, description: "", icon: "Shirt" }
+}
+
+const CREATED_AT = new Date("2026-01-01").toISOString()
+
+function product(overrides: Partial<Product> & Pick<Product, "id" | "name">): Product {
+  return {
+    slug: overrides.id,
+    category: category("Cotton", "cotton"),
+    fabricType: "Plain",
+    color: "Ivory",
+    colorHex: "#e7ddc9",
+    composition: "100% Cotton",
+    weightGsm: 150,
+    widthCm: 150,
+    pricePerUnit: 6.5,
+    currency: "USD",
+    unit: "meter",
+    moq: 100,
+    availability: "in-stock",
+    leadTimeDays: 7,
+    supplier: supplier("Veyra Mills", "India", "Ahmedabad", ["OEKO-TEX"]),
+    rating: 4.5,
+    reviewCount: 24,
+    description: "",
+    tags: [],
+    images: [],
+    featured: true,
+    isActive: true,
+    createdAt: CREATED_AT,
+    ...overrides,
+  }
+}
+
+export const fallbackProducts: Product[] = [
+  product({
+    id: "fallback-plain",
+    name: "Combed Cotton Poplin",
+    fabricType: "Poplin",
+    color: "Ivory",
+    colorHex: "#e7ddc9",
+    composition: "100% Cotton",
+    weightGsm: 140,
+    pricePerUnit: 5.8,
+    category: category("Cotton", "cotton"),
+    supplier: supplier("Ahmedabad Weaves", "India", "Ahmedabad", ["OEKO-TEX"]),
+  }),
+  product({
+    id: "fallback-twill",
+    name: "Brushed Cotton Twill",
+    fabricType: "Twill",
+    color: "Camel",
+    colorHex: "#b98d56",
+    composition: "97% Cotton, 3% Elastane",
+    weightGsm: 240,
+    pricePerUnit: 7.4,
+    category: category("Cotton", "cotton"),
+    supplier: supplier("Anatolia Textiles", "Turkey", "Bursa", []),
+  }),
+  product({
+    id: "fallback-herringbone",
+    name: "Herringbone Wool Tweed",
+    fabricType: "Herringbone",
+    color: "Walnut",
+    colorHex: "#5a4636",
+    composition: "90% Wool, 10% Nylon",
+    weightGsm: 320,
+    pricePerUnit: 14.2,
+    category: category("Wool & Cashmere", "wool"),
+    supplier: supplier("Scottish Border Mills", "Portugal", "Porto", ["RWS"]),
+  }),
+  product({
+    id: "fallback-zigzag",
+    name: "Chevron Wool Blend",
+    fabricType: "Zigzag",
+    color: "Terracotta",
+    colorHex: "#a8613f",
+    composition: "80% Wool, 20% Acrylic",
+    weightGsm: 300,
+    pricePerUnit: 12.6,
+    category: category("Wool & Cashmere", "wool"),
+    supplier: supplier("Anatolia Textiles", "Turkey", "Bursa", []),
+  }),
+  product({
+    id: "fallback-ribbed-knit",
+    name: "Cotton Rib Jersey",
+    fabricType: "Rib Knit",
+    color: "Sandstone",
+    colorHex: "#c9b79c",
+    composition: "95% Cotton, 5% Elastane",
+    weightGsm: 220,
+    pricePerUnit: 6.9,
+    category: category("Knits", "knits"),
+    supplier: supplier("Dhaka Knit Co.", "Bangladesh", "Dhaka", ["GRS"]),
+  }),
+  product({
+    id: "fallback-denim",
+    name: "Selvedge Denim",
+    fabricType: "Denim",
+    color: "Indigo",
+    colorHex: "#3c5266",
+    composition: "98% Cotton, 2% Elastane",
+    weightGsm: 340,
+    pricePerUnit: 9.8,
+    category: category("Denim", "denim"),
+    supplier: supplier("Anatolia Textiles", "Turkey", "Bursa", []),
+  }),
+  product({
+    id: "fallback-canvas",
+    name: "Waxed Cotton Canvas",
+    fabricType: "Canvas",
+    color: "Olive",
+    colorHex: "#6b6b47",
+    composition: "100% Cotton Duck",
+    weightGsm: 400,
+    pricePerUnit: 8.4,
+    category: category("Cotton", "cotton"),
+    supplier: supplier("Dhaka Knit Co.", "Bangladesh", "Dhaka", ["GRS"]),
+  }),
+  product({
+    id: "fallback-linen",
+    name: "Belgian Linen",
+    fabricType: "Linen",
+    color: "Oatmeal",
+    colorHex: "#cdbfa0",
+    composition: "100% Linen",
+    weightGsm: 185,
+    pricePerUnit: 11.2,
+    category: category("Linen", "linen"),
+    supplier: supplier("Porto Linen House", "Portugal", "Porto", ["GOTS"]),
+  }),
+  product({
+    id: "fallback-satin",
+    name: "Mulberry Silk Charmeuse",
+    fabricType: "Satin",
+    color: "Espresso",
+    colorHex: "#8a5a44",
+    composition: "100% Silk",
+    weightGsm: 60,
+    pricePerUnit: 22.5,
+    category: category("Silk", "silk"),
+    supplier: supplier("Como Silk Atelier", "Italy", "Como", []),
+  }),
+  product({
+    id: "fallback-jacquard",
+    name: "Jacquard Brocade",
+    fabricType: "Jacquard",
+    color: "Bronze",
+    colorHex: "#7a5c3e",
+    composition: "60% Cotton, 40% Silk",
+    weightGsm: 260,
+    pricePerUnit: 18.9,
+    category: category("Silk", "silk"),
+    supplier: supplier("Como Silk Atelier", "Italy", "Como", []),
+  }),
+  product({
+    id: "fallback-waffle",
+    name: "Waffle Knit Cotton",
+    fabricType: "Waffle",
+    color: "Stone",
+    colorHex: "#b8ac97",
+    composition: "100% Cotton",
+    weightGsm: 210,
+    pricePerUnit: 6.2,
+    category: category("Knits", "knits"),
+    supplier: supplier("Ahmedabad Weaves", "India", "Ahmedabad", ["OEKO-TEX"]),
+  }),
+  product({
+    id: "fallback-corduroy",
+    name: "8-Wale Cotton Corduroy",
+    fabricType: "Corduroy",
+    color: "Rust",
+    colorHex: "#93502f",
+    composition: "100% Cotton",
+    weightGsm: 310,
+    pricePerUnit: 9.1,
+    category: category("Cotton", "cotton"),
+    supplier: supplier("Ahmedabad Weaves", "India", "Ahmedabad", ["OEKO-TEX"]),
+  }),
+]
