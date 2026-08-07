@@ -13,10 +13,13 @@ import { useFeaturedProducts } from "@/features/marketplace/hooks/use-featured-p
 export function MarketplacePreviewSection() {
   const { data, isPending } = useFeaturedProducts()
 
-  const products = useMemo(() => {
+  const { products, usingFallback } = useMemo(() => {
     const real = (data?.items ?? []).filter((p) => p.featured)
-    if (real.length >= 4) return real.slice(0, 4)
-    return [...real, ...fallbackProducts].slice(0, 4)
+    if (real.length >= 4) return { products: real.slice(0, 4), usingFallback: false }
+    return {
+      products: [...real, ...fallbackProducts].slice(0, 4),
+      usingFallback: true,
+    }
   }, [data])
 
   return (
@@ -27,7 +30,11 @@ export function MarketplacePreviewSection() {
             align="left"
             eyebrow="Marketplace preview"
             title="Real listings, live from the marketplace"
-            description="Fabric, supplier, pricing and AI match — no screenshots, no placeholders."
+            description={
+              usingFallback
+                ? "Fabric, supplier, pricing and AI match — sample listings shown while the marketplace catalog fills in."
+                : "Fabric, supplier, pricing and AI match — no screenshots, no placeholders."
+            }
           />
           <Button asChild variant="outline" className="shrink-0 gap-2">
             <Link to="/marketplace">

@@ -62,10 +62,11 @@ export interface ForgotPasswordInput {
 }
 
 export interface ForgotPasswordResponse {
-  resetUrl?: string
+  otp?: string
+  expiresInMinutes?: number
 }
 
 export interface ResetPasswordInput {
-  token: string
+  otp: string
   newPassword: string
 }

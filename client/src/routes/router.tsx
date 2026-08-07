@@ -19,9 +19,6 @@ const RegisterPage = lazy(() =>
 const ForgotPasswordPage = lazy(() =>
   import("@/pages/forgot-password-page").then((m) => ({ default: m.ForgotPasswordPage })),
 )
-const ResetPasswordPage = lazy(() =>
-  import("@/pages/reset-password-page").then((m) => ({ default: m.ResetPasswordPage })),
-)
 const DashboardPage = lazy(() =>
   import("@/pages/dashboard-page").then((m) => ({ default: m.DashboardPage })),
 )
@@ -112,7 +109,6 @@ const router = createBrowserRouter([
           { path: "login", element: withSuspense(<LoginPage />) },
           { path: "register", element: withSuspense(<RegisterPage />) },
           { path: "forgot-password", element: withSuspense(<ForgotPasswordPage />) },
-          { path: "reset-password", element: withSuspense(<ResetPasswordPage />) },
         ],
       },
       {

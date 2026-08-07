@@ -10,10 +10,14 @@ import { signAccessToken } from "../utils/jwt.js"
 import { strongPassword } from "../utils/password-schema.js"
 import { toPublicUser } from "../utils/serialize-user.js"
 
-const RESET_TOKEN_TTL_MS = 60 * 60 * 1000
+const RESET_TOKEN_TTL_MS = 10 * 60 * 1000
 
 function hashResetToken(token: string) {
   return crypto.createHash("sha256").update(token).digest("hex")
+}
+
+function generateOtp() {
+  return crypto.randomInt(0, 1_000_000).toString().padStart(6, "0")
 }
 
 export const registerSchema = z.object({
@@ -79,11 +83,12 @@ export const forgotPasswordSchema = z.object({
 })
 
 /**
- * No email provider is wired up (no SMTP/Resend/etc.), so this is
- * explicitly a dev-only convenience: the reset link is returned directly
- * in the response (and logged) instead of being emailed. Never expose the
- * link in production — there it just logs server-side, which is a no-op
- * without a way to deliver it, but it also never leaks a token over the API.
+ * No email/SMS provider is wired up (no SMTP/Resend/Twilio/etc.), so this
+ * is explicitly a dev-only convenience: the OTP is returned directly in
+ * the response (and logged) instead of being sent out-of-band. Never
+ * expose it in production — there it just logs server-side, which is a
+ * no-op without a way to deliver it, but it also never leaks the code
+ * over the API.
  */
 export const forgotPassword = asyncHandler(async (req, res) => {
   const { email } = req.body as z.infer<typeof forgotPasswordSchema>
@@ -93,36 +98,35 @@ export const forgotPassword = asyncHandler(async (req, res) => {
     throw new ApiError(404, "No account found with that email")
   }
 
-  const token = crypto.randomBytes(32).toString("hex")
-  user.resetPasswordTokenHash = hashResetToken(token)
+  const otp = generateOtp()
+  user.resetPasswordTokenHash = hashResetToken(otp)
   user.resetPasswordExpires = new Date(Date.now() + RESET_TOKEN_TTL_MS)
   await user.save()
 
-  const resetUrl = `${env.CLIENT_URL}/reset-password?token=${token}`
-  console.log(`[dev] Password reset link for ${email}: ${resetUrl}`)
+  console.log(`[dev] Password reset OTP for ${email}: ${otp}`)
 
   sendSuccess(
     res,
-    env.NODE_ENV === "production" ? null : { resetUrl },
-    "Reset link generated",
+    env.NODE_ENV === "production" ? null : { otp, expiresInMinutes: RESET_TOKEN_TTL_MS / 60_000 },
+    "Verification code generated",
   )
 })
 
 export const resetPasswordSchema = z.object({
-  token: z.string().min(1),
+  otp: z.string().length(6),
   newPassword: strongPassword,
 })
 
 export const resetPassword = asyncHandler(async (req, res) => {
-  const { token, newPassword } = req.body as z.infer<typeof resetPasswordSchema>
+  const { otp, newPassword } = req.body as z.infer<typeof resetPasswordSchema>
 
   const user = await User.findOne({
-    resetPasswordTokenHash: hashResetToken(token),
+    resetPasswordTokenHash: hashResetToken(otp),
     resetPasswordExpires: { $gt: new Date() },
   }).select("+resetPasswordTokenHash +resetPasswordExpires")
 
   if (!user) {
-    throw new ApiError(400, "Reset link is invalid or has expired")
+    throw new ApiError(400, "Code is invalid or has expired")
   }
 
   user.password = newPassword

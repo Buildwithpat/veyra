@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
+import { AlertTriangle } from "lucide-react"
 
 import { EmptyState } from "@/components/shared/empty-state"
 import { CompareTray } from "@/features/marketplace/components/compare-tray"
@@ -20,6 +21,15 @@ import type { Product } from "@/features/marketplace/types"
 import { useDocumentTitle } from "@/hooks/use-document-title"
 
 const MAX_COMPARE = 3
+
+function dedupeById(products: Product[]): Product[] {
+  const seen = new Set<string>()
+  return products.filter((p) => {
+    if (seen.has(p.id)) return false
+    seen.add(p.id)
+    return true
+  })
+}
 
 const gridClass: Record<string, string> = {
   large: "grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3",
@@ -48,7 +58,11 @@ export function MarketplacePage() {
   const [compareOpen, setCompareOpen] = useState(false)
   const [previewProduct, setPreviewProduct] = useState<Product | null>(null)
 
-  const items = productsQuery.data?.pages.flatMap((page) => page.items) ?? []
+  // Pages are deduped by id defensively — a product tied with its neighbor
+  // on the sort key can otherwise be returned by both the page-N and
+  // page-N+1 queries and appear twice once the infinite-scroll pages are
+  // flattened, which would double it up in the grid and in compare.
+  const items = dedupeById(productsQuery.data?.pages.flatMap((page) => page.items) ?? [])
   const total = productsQuery.data?.pages[0]?.total ?? 0
   const hasNextPage = productsQuery.hasNextPage ?? false
   const compareProducts = items.filter((p) => compareIds.includes(p.id))
@@ -110,6 +124,14 @@ export function MarketplacePage() {
             <ProductCardSkeleton key={i} compact={viewMode === "compact"} />
           ))}
         </div>
+      ) : productsQuery.isError ? (
+        <EmptyState
+          icon={AlertTriangle}
+          title="Couldn't load the marketplace"
+          description="Something went wrong reaching the server. Check your connection and try again."
+          actionLabel="Retry"
+          onAction={() => productsQuery.refetch()}
+        />
       ) : items.length === 0 ? (
         <EmptyState
           title="No fabrics match your search"

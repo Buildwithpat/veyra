@@ -15,12 +15,17 @@ const aspectRatios = ["aspect-[3/4]", "aspect-square", "aspect-[4/5]", "aspect-[
 export function FabricLibrarySection() {
   const { data, isPending } = useFeaturedProducts()
 
-  const products = useMemo(() => {
+  const { products, usingFallback } = useMemo(() => {
     const real = data?.items ?? []
-    if (real.length >= TILE_COUNT) return real.slice(0, TILE_COUNT)
+    if (real.length >= TILE_COUNT) {
+      return { products: real.slice(0, TILE_COUNT), usingFallback: false }
+    }
     // Blend real listings with fallback samples so the wall is always full,
     // never repeating a real product to pad it out.
-    return [...real, ...fallbackProducts].slice(0, TILE_COUNT)
+    return {
+      products: [...real, ...fallbackProducts].slice(0, TILE_COUNT),
+      usingFallback: true,
+    }
   }, [data])
 
   return (
@@ -29,7 +34,7 @@ export function FabricLibrarySection() {
         <SectionHeading
           align="left"
           eyebrow="Fabric library"
-          title="A showroom wall of real textile samples"
+          title={usingFallback ? "A showroom wall of textile samples" : "A showroom wall of real textile samples"}
           description="Every tile is generated from the fabric's own weave, weight and color — hover for a quick spec, click to turn it over."
         />
 

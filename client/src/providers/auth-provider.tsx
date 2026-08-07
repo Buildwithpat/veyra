@@ -45,10 +45,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isLoading,
       isAuthenticated: Boolean(user),
       login: async (input) => {
-        await loginMutation.mutateAsync(input)
+        const data = await loginMutation.mutateAsync(input)
+        return data.user
       },
       register: async (input) => {
-        await registerMutation.mutateAsync(input)
+        const data = await registerMutation.mutateAsync(input)
+        return data.user
       },
       logout,
     }),

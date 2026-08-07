@@ -77,20 +77,26 @@ function buildSort(
   sort: unknown,
   hasTextSearch: boolean,
 ): Record<string, SortOrder | { $meta: "textScore" }> {
+  // Every branch ends with `_id: 1` as a tiebreaker. Without one, ties on
+  // the primary key (e.g. two products with the same rating) leave Mongo
+  // free to order them differently between the skip/limit calls for page 0
+  // and page 1 — so a tied product can land on both pages and appear twice
+  // in the infinite-scrolled list, duplicating it (and anything derived
+  // from it, like compare selection) on the client.
   switch (sort) {
     case "price-asc":
-      return { pricePerUnit: 1 }
+      return { pricePerUnit: 1, _id: 1 }
     case "price-desc":
-      return { pricePerUnit: -1 }
+      return { pricePerUnit: -1, _id: 1 }
     case "newest":
-      return { createdAt: -1 }
+      return { createdAt: -1, _id: 1 }
     case "rating":
-      return { rating: -1 }
+      return { rating: -1, _id: 1 }
     case "relevance":
     default:
       return hasTextSearch
-        ? { score: { $meta: "textScore" } }
-        : { featured: -1, rating: -1 }
+        ? { score: { $meta: "textScore" }, _id: 1 }
+        : { featured: -1, rating: -1, _id: 1 }
   }
 }
 

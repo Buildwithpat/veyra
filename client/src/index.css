@@ -199,6 +199,16 @@
     @apply bg-primary/30 text-foreground;
   }
 
+  /* Browsers don't give <button> a pointer cursor by default (only <a>
+     does) — Tailwind's preflight no longer forces cursor:default either,
+     but nothing sets pointer, so every button-based control (shadcn
+     Button, Radix triggers, raw <button>s) shows the arrow on hover
+     unless we do it here, once, globally. */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
+
   /* Minimal, unobtrusive scrollbar */
   ::-webkit-scrollbar {
     width: 10px;

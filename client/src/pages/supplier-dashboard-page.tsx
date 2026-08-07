@@ -1,7 +1,17 @@
+import { useMemo } from "react"
 import { Link } from "react-router-dom"
-import { AlertTriangle, Package, PackageCheck, PackageSearch } from "lucide-react"
+import {
+  AlertTriangle,
+  Clock,
+  Package,
+  PackageCheck,
+  PackageSearch,
+  Receipt,
+  Wallet,
+} from "lucide-react"
 
 import { EmptyState } from "@/components/shared/empty-state"
+import { OrderStatusBadge } from "@/components/shared/order-status-badge"
 import { StatCard } from "@/components/shared/stat-card"
 import { Button } from "@/components/ui/button"
 import {
@@ -14,14 +24,60 @@ import {
 import { Progress } from "@/components/ui/progress"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useAuth } from "@/features/auth/hooks/use-auth"
+import type { OrderStatus } from "@/features/orders/types"
 import { SupplierOrderRow } from "@/features/supplier/components/supplier-order-row"
 import { useDashboardStats } from "@/features/supplier/hooks/use-dashboard-stats"
+import { useIncomingOrders } from "@/features/supplier/hooks/use-incoming-orders"
 import { useDocumentTitle } from "@/hooks/use-document-title"
+import { formatPrice } from "@/lib/format"
+
+const STATUS_ORDER: OrderStatus[] = [
+  "pending",
+  "accepted",
+  "preparing",
+  "ready-for-dispatch",
+  "completed",
+]
 
 export function SupplierDashboardPage() {
   useDocumentTitle("Dashboard")
   const { user } = useAuth()
-  const { data: stats, isPending } = useDashboardStats()
+  const { data: stats, isPending, isError, refetch } = useDashboardStats()
+  const { data: incomingOrders } = useIncomingOrders()
+
+  const businessStats = useMemo(() => {
+    const orders = incomingOrders ?? []
+    const totalRevenue = orders.reduce((sum, o) => sum + o.supplierSubtotal, 0)
+    const pendingOrders = orders.filter((o) => o.status === "pending").length
+    const avgOrderValue = orders.length ? totalRevenue / orders.length : 0
+    const byStatus = STATUS_ORDER.map((status) => ({
+      status,
+      count: orders.filter((o) => o.status === status).length,
+    }))
+    return { totalRevenue, pendingOrders, avgOrderValue, byStatus, hasOrders: orders.length > 0 }
+  }, [incomingOrders])
+
+  if (isError) {
+    return (
+      <div className="flex flex-col gap-6">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight">
+            Welcome back, {user?.name.split(" ")[0]}
+          </h1>
+          <p className="text-muted-foreground text-sm">
+            Here&apos;s how your business is performing on Veyra.
+          </p>
+        </div>
+        <EmptyState
+          icon={AlertTriangle}
+          title="Couldn't load your dashboard"
+          description="Something went wrong reaching the server."
+          actionLabel="Retry"
+          onAction={() => refetch()}
+        />
+      </div>
+    )
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -65,6 +121,50 @@ export function SupplierDashboardPage() {
             icon={PackageSearch}
           />
         </div>
+      )}
+
+      {!isPending && (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <StatCard
+            label="Total revenue"
+            value={formatPrice(businessStats.totalRevenue)}
+            icon={Wallet}
+            description="Across all orders"
+          />
+          <StatCard
+            label="Pending orders"
+            value={businessStats.pendingOrders}
+            icon={Clock}
+            description="Awaiting your response"
+          />
+          <StatCard
+            label="Avg. order value"
+            value={formatPrice(businessStats.avgOrderValue)}
+            icon={Receipt}
+          />
+        </div>
+      )}
+
+      {!isPending && businessStats.hasOrders && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">Orders by status</CardTitle>
+            <CardDescription>Where your incoming orders currently stand.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap gap-3">
+              {businessStats.byStatus.map(({ status, count }) => (
+                <div
+                  key={status}
+                  className="border-border bg-surface flex flex-1 min-w-[140px] items-center justify-between gap-3 rounded-xl border px-4 py-3"
+                >
+                  <OrderStatusBadge status={status} />
+                  <span className="text-foreground text-lg font-semibold">{count}</span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
       )}
 
       {!isPending && stats && stats.profileCompletion < 100 && (

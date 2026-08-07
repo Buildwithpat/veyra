@@ -102,7 +102,7 @@ export function CompareTray({ products, onRemove, onClear, open, onOpenChange }:
                   <th className="w-28" />
                   {products.map((product) => (
                     <th key={product.id} className="px-3 pb-3 text-left align-bottom">
-                      <div className="border-border mb-2 size-14 overflow-hidden rounded-lg border">
+                      <div className="border-border relative mb-2 size-14 overflow-hidden rounded-lg border">
                         <WeaveTexture
                           kind={inferWeaveKind(product.fabricType, product.tags)}
                           colorHex={product.colorHex}

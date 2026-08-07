@@ -1,4 +1,4 @@
-import { PackageSearch } from "lucide-react"
+import { AlertTriangle, PackageSearch } from "lucide-react"
 
 import { EmptyState } from "@/components/shared/empty-state"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -24,10 +24,20 @@ function OrderListSkeleton() {
 
 export function DashboardOrdersPage() {
   useDocumentTitle("My Orders")
-  const { data: orders, isPending } = useOrders()
+  const { data: orders, isPending, isError, refetch } = useOrders()
 
   const current = (orders ?? []).filter(isCurrent)
   const history = (orders ?? []).filter((o) => !isCurrent(o))
+
+  const errorState = (
+    <EmptyState
+      icon={AlertTriangle}
+      title="Couldn't load your orders"
+      description="Something went wrong reaching the server."
+      actionLabel="Retry"
+      onAction={() => refetch()}
+    />
+  )
 
   return (
     <div className="flex flex-col gap-6">
@@ -47,6 +57,8 @@ export function DashboardOrdersPage() {
         <TabsContent value="current" className="mt-6">
           {isPending ? (
             <OrderListSkeleton />
+          ) : isError ? (
+            errorState
           ) : current.length === 0 ? (
             <EmptyState
               icon={PackageSearch}
@@ -65,6 +77,8 @@ export function DashboardOrdersPage() {
         <TabsContent value="history" className="mt-6">
           {isPending ? (
             <OrderListSkeleton />
+          ) : isError ? (
+            errorState
           ) : history.length === 0 ? (
             <EmptyState
               icon={PackageSearch}

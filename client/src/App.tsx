@@ -1,4 +1,4 @@
-import { AppRouter } from "@/routes/router"
+import { AppShell } from "@/components/shell/app-shell"
 import { AuthProvider } from "@/providers/auth-provider"
 import { QueryProvider } from "@/providers/query-provider"
 import { CartProvider } from "@/features/cart/cart-provider"
@@ -11,7 +11,7 @@ function App() {
       <QueryProvider>
         <AuthProvider>
           <CartProvider>
-            <AppRouter />
+            <AppShell />
             <Toaster />
           </CartProvider>
         </AuthProvider>

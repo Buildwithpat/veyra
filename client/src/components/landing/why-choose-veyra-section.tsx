@@ -14,26 +14,26 @@ import { SectionHeading } from "@/components/shared/section-heading"
 import { VeyraAiIcon } from "@/components/shared/veyra-ai-icon"
 
 function MatchScorePreview() {
+  const signals = ["Weight", "Price", "Lead time", "Certs"]
   return (
     <motion.div className="flex items-center gap-3" initial="rest" whileHover="hover" animate="rest">
-      <svg viewBox="0 0 40 40" className="size-12 -rotate-90">
-        <circle cx="20" cy="20" r="16" strokeWidth="4" className="stroke-border" fill="none" />
-        <motion.circle
-          cx="20"
-          cy="20"
-          r="16"
-          strokeWidth="4"
-          strokeLinecap="round"
-          className="stroke-primary"
-          fill="none"
-          strokeDasharray={100.5}
-          variants={{ rest: { strokeDashoffset: 100.5 }, hover: { strokeDashoffset: 100.5 * 0.06 } }}
-          transition={{ duration: 0.9, ease: "easeOut" }}
-        />
-      </svg>
-      <div>
-        <p className="text-foreground text-sm font-semibold">94% match</p>
-        <p className="text-muted-foreground text-xs">Computed from real listing signals</p>
+      <span className="bg-primary/10 text-primary flex size-12 shrink-0 items-center justify-center rounded-full">
+        <VeyraAiIcon className="size-5" />
+      </span>
+      <div className="flex flex-col gap-1">
+        {signals.map((signal, i) => (
+          <motion.div key={signal} className="flex items-center gap-1.5">
+            <motion.span
+              className="bg-border block size-1.5 rounded-full"
+              variants={{
+                rest: { backgroundColor: "var(--border)", scale: 1 },
+                hover: { backgroundColor: "var(--primary)", scale: 1.15 },
+              }}
+              transition={{ delay: i * 0.08 }}
+            />
+            <span className="text-muted-foreground text-[11px]">{signal}</span>
+          </motion.div>
+        ))}
       </div>
     </motion.div>
   )
