@@ -22,7 +22,11 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import { useCategories } from "@/features/marketplace/hooks/use-categories"
 import { useCreateRfq } from "@/features/rfq/hooks/use-create-rfq"
-import { createRfqSchema, type CreateRfqFormValues } from "@/features/rfq/schemas"
+import {
+  createRfqSchema,
+  type CreateRfqFormInput,
+  type CreateRfqFormValues,
+} from "@/features/rfq/schemas"
 
 interface CreateRfqDialogProps {
   open: boolean
@@ -39,7 +43,7 @@ export function CreateRfqDialog({ open, onOpenChange }: CreateRfqDialogProps) {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<CreateRfqFormValues>({
+  } = useForm<CreateRfqFormInput, unknown, CreateRfqFormValues>({
     resolver: zodResolver(createRfqSchema),
     defaultValues: {
       categorySlug: "",

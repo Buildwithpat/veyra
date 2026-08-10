@@ -18,7 +18,12 @@ export const createRfqSchema = z.object({
   deadline: z.string().optional(),
 })
 
-export type CreateRfqFormValues = z.infer<typeof createRfqSchema>
+// The schema narrows targetPriceMax from the raw input type ("" allowed, to
+// represent a cleared number input) to the transformed output type (undefined
+// instead of ""), so the form's field values and its submit handler's values
+// need two distinct types, wired together via useForm's third generic.
+export type CreateRfqFormInput = z.input<typeof createRfqSchema>
+export type CreateRfqFormValues = z.output<typeof createRfqSchema>
 
 export const submitRfqResponseSchema = z.object({
   pricePerUnit: z.coerce.number().positive("Enter a price per unit"),
