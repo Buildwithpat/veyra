@@ -19,7 +19,14 @@ export function useScrollToHash() {
   const { pathname, hash } = useLocation()
 
   useEffect(() => {
-    if (!hash) return
+    if (!hash) {
+      // A plain navigation (e.g. clicking the logo back to "/") should land
+      // at the top of the new page — without this, going from a scrolled-to
+      // hash section to a hash-less route leaves the scroll position exactly
+      // where it was, since React Router doesn't reset it on its own.
+      window.scrollTo({ top: 0, behavior: "smooth" })
+      return
+    }
     const id = hash.slice(1)
 
     let cancelled = false

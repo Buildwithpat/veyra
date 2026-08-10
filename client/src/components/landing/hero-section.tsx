@@ -89,8 +89,8 @@ export function HeroSection() {
             className="text-muted-foreground mt-6 max-w-md text-lg text-balance"
           >
             Veyra connects fabric buyers and suppliers on one marketplace —
-            natural-language search, instant comparisons, and verified sourcing
-            from mills worldwide.
+            search in plain English, compare instantly, and let our AI assistant
+            match, message and quote suppliers on your behalf.
           </motion.p>
 
           <motion.div

@@ -57,8 +57,8 @@ function TileGrid() {
 
 export function AuthLayout() {
   return (
-    <div className="bg-background h-svh overflow-hidden lg:grid lg:grid-cols-2">
-      <div className="flex h-full items-center justify-center overflow-y-auto px-6 py-10 sm:px-10">
+    <div className="bg-background fixed inset-0 overflow-hidden lg:grid lg:grid-cols-2">
+      <div className="flex h-full min-h-0 items-center justify-center overflow-y-auto px-6 py-10 sm:px-10">
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
@@ -75,7 +75,7 @@ export function AuthLayout() {
         </motion.div>
       </div>
 
-      <div className="border-border/60 bg-surface relative hidden h-full flex-col overflow-hidden border-l px-12 py-12 lg:flex">
+      <div className="border-border/60 bg-surface relative hidden h-full min-h-0 flex-col overflow-hidden border-l px-12 py-12 lg:flex">
         {/* Gradient mesh + faint woven cross-hatch — purely decorative, rhymes with the hero */}
         <div
           className="pointer-events-none absolute inset-0 opacity-80"
