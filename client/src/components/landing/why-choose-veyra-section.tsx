@@ -168,7 +168,7 @@ const capabilities = [
   {
     icon: VeyraAiIcon,
     title: "AI Fabric Matching",
-    description: "Every listing carries a real, computed match score — never a random number.",
+    description: "Every listing carries a real, computed match score, not a random number.",
     preview: MatchScorePreview,
     large: true,
   },
@@ -194,7 +194,7 @@ const capabilities = [
   {
     icon: Search,
     title: "Smart Search",
-    description: "Natural language or structured filters — search however you think.",
+    description: "Natural language or structured filters, search however you think.",
     preview: SmartSearchPreview,
   },
   {
@@ -224,8 +224,8 @@ export function WhyChooseVeyraSection() {
         <SectionHeading
           align="left"
           eyebrow="Why Veyra"
-          title="Built as a real product, not a demo"
-          description="No fabricated statistics, no fake logos — just what the platform actually does, shown in action."
+          title="Every feature does exactly what it shows"
+          description="No fabricated statistics, no fake logos, just what the platform actually does, shown in action."
         />
 
         <div className="mt-12 grid grid-cols-1 gap-5 lg:grid-cols-12">

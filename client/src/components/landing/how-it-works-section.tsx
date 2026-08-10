@@ -145,7 +145,7 @@ const journey = [
   {
     icon: Search,
     title: "Describe what you need",
-    description: "Type a sourcing brief in plain language — no filters, no forms.",
+    description: "Type a sourcing brief in plain language, no filters, no forms.",
     snippet: SearchSnippet,
   },
   {

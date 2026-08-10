@@ -137,7 +137,7 @@ export function GlobalSourcingMapSection() {
         <SectionHeading
           eyebrow="Global textile network"
           title="A living network of sourcing regions"
-          description="Veyra's AI hub connects buyers to specialty regions worldwide — hover a node to see what it's known for."
+          description="Veyra's AI hub connects buyers to specialty regions worldwide. Hover a node to see what it's known for."
         />
 
         <FadeIn delay={0.1}>

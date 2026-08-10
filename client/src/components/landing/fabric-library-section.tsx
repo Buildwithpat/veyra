@@ -35,7 +35,7 @@ export function FabricLibrarySection() {
           align="left"
           eyebrow="Fabric library"
           title={usingFallback ? "A showroom wall of textile samples" : "A showroom wall of real textile samples"}
-          description="Every tile is generated from the fabric's own weave, weight and color — hover for a quick spec, click to turn it over."
+          description="Every tile is generated from the fabric's own weave, weight and color. Hover for a quick spec, click to turn it over."
         />
 
         <div className="mt-12 columns-2 gap-4 sm:columns-3 lg:columns-4">

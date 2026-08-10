@@ -83,14 +83,14 @@ export function Footer() {
       <div className="relative mx-auto max-w-7xl px-6 py-20">
         <div className="grid grid-cols-1 gap-14 lg:grid-cols-[minmax(0,1.5fr)_repeat(3,minmax(0,1fr))]">
           <div className="max-w-sm">
-            <Link to="/" className="flex items-center gap-2">
+            <a href="/" className="flex items-center gap-2">
               <span className="bg-primary text-primary-foreground flex size-8 items-center justify-center rounded-lg">
                 <VeyraMark className="size-4.5" />
               </span>
               <span className="font-display text-xl font-semibold tracking-tight">Veyra</span>
-            </Link>
+            </a>
             <p className="mt-4 text-sm leading-relaxed opacity-70">
-              A B2B marketplace connecting fabric buyers and suppliers worldwide — search, compare
+              A B2B marketplace connecting fabric buyers and suppliers worldwide. Search, compare
               and order fabric in one place.
             </p>
 

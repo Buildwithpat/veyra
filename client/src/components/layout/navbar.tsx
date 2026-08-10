@@ -176,12 +176,12 @@ export function Navbar() {
         )}
       >
         <div className="flex items-center gap-6">
-          <Link to="/" className="flex items-center gap-2">
+          <a href="/" className="flex items-center gap-2">
             <span className="bg-primary text-primary-foreground flex size-7 items-center justify-center rounded-lg">
               <VeyraMark className="size-4" />
             </span>
             <span className="font-display text-base font-semibold tracking-tight">Veyra</span>
-          </Link>
+          </a>
 
           <nav className="hidden items-center gap-1 text-sm md:flex">
             {navLinks.map((link) => (

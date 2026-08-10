@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { useCart } from "@/features/cart/hooks/use-cart"
 import { LandedCostEstimator } from "@/features/marketplace/components/landed-cost-estimator"
+import { PriceCurrencyCheck } from "@/features/marketplace/components/price-currency-check"
 import type { Product } from "@/features/marketplace/types"
 import { ContactSupplierButton } from "@/features/messaging/components/contact-supplier-button"
 import { RequestSampleButton } from "@/features/samples/components/request-sample-button"
@@ -55,6 +56,9 @@ export function BuyPanel({ product }: { product: Product }) {
             <p className="text-muted-foreground mt-1 text-sm">
               MOQ {formatNumber(product.moq)} {product.unit}s
             </p>
+            <div className="mt-1.5">
+              <PriceCurrencyCheck amountUsd={product.pricePerUnit} />
+            </div>
           </div>
           <div className="flex items-center gap-1.5">
             <AvailabilityBadge availability={product.availability} />

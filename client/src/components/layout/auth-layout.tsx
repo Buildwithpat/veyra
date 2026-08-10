@@ -1,4 +1,4 @@
-import { Link, Outlet } from "react-router-dom"
+import { Outlet } from "react-router-dom"
 import { motion } from "framer-motion"
 
 import { fallbackProducts } from "@/components/landing/fallback-products"
@@ -65,12 +65,12 @@ export function AuthLayout() {
           transition={{ duration: 0.25, ease: "easeOut" }}
           className="w-full max-w-sm"
         >
-          <Link to="/" className="mb-10 flex items-center gap-2">
+          <a href="/" className="mb-10 flex items-center gap-2">
             <span className="bg-primary text-primary-foreground flex size-8 items-center justify-center rounded-lg">
               <VeyraMark className="size-4.5" />
             </span>
             <span className="font-display text-lg font-semibold tracking-tight">Veyra</span>
-          </Link>
+          </a>
           <Outlet />
         </motion.div>
       </div>

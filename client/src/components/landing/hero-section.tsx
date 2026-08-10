@@ -88,8 +88,8 @@ export function HeroSection() {
             transition={{ duration: 0.35, delay: 0.1 }}
             className="text-muted-foreground mt-6 max-w-md text-lg text-balance"
           >
-            Veyra connects fabric buyers and suppliers on one marketplace —
-            search in plain English, compare instantly, and let our AI assistant
+            Veyra connects fabric buyers and suppliers on one marketplace.
+            Search in plain English, compare instantly, and let our AI assistant
             match, message and quote suppliers on your behalf.
           </motion.p>
 

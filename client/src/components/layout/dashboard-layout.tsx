@@ -95,9 +95,9 @@ export function DashboardLayout() {
   return (
     <div className="fixed inset-0 flex flex-col overflow-hidden md:flex-row">
       <header className="border-border/60 bg-surface flex shrink-0 items-center justify-between border-b px-4 py-3 md:hidden">
-        <Link to="/">
+        <a href="/">
           <VeyraWordmark />
-        </Link>
+        </a>
         <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
           <Button
             variant="ghost"
@@ -125,9 +125,9 @@ export function DashboardLayout() {
       </header>
 
       <aside className="border-border/60 bg-surface hidden w-64 min-h-0 shrink-0 flex-col overflow-y-auto border-r px-4 py-6 md:flex">
-        <Link to="/" className="mb-8 px-2">
+        <a href="/" className="mb-8 px-2">
           <VeyraWordmark />
-        </Link>
+        </a>
 
         <DashboardNavLinks links={links} location={location} />
 

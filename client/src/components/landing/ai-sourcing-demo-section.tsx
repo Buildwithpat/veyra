@@ -89,7 +89,7 @@ export function AiSourcingDemoSection() {
         <SectionHeading
           eyebrow="AI search, live"
           title="Watch the AI work, not read about it"
-          description="Type a real sourcing brief — this parses your request and searches the live marketplace, right here."
+          description="Type a real sourcing brief. This parses your request and searches the live marketplace, right here."
         />
 
         <FadeIn delay={0.1} className="mt-12">
