@@ -6,6 +6,8 @@ import { categoriesRoutes } from "./categories.routes.js"
 import { messagesRoutes } from "./messages.routes.js"
 import { ordersRoutes } from "./orders.routes.js"
 import { productsRoutes } from "./products.routes.js"
+import { reviewsRoutes } from "./reviews.routes.js"
+import { rfqRoutes } from "./rfq.routes.js"
 import { sampleRequestsRoutes } from "./sample-requests.routes.js"
 import { suppliersRoutes } from "./suppliers.routes.js"
 import { usersRoutes } from "./users.routes.js"
@@ -23,3 +25,5 @@ apiRouter.use("/assistant", assistantRoutes)
 apiRouter.use("/wishlist", wishlistRoutes)
 apiRouter.use("/sample-requests", sampleRequestsRoutes)
 apiRouter.use("/messages", messagesRoutes)
+apiRouter.use("/reviews", reviewsRoutes)
+apiRouter.use("/rfq", rfqRoutes)

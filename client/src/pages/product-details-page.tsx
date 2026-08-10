@@ -13,6 +13,7 @@ import { SpecsTable } from "@/features/marketplace/components/specs-table"
 import { SupplierCard } from "@/features/marketplace/components/supplier-card"
 import { useProduct, useSimilarProducts } from "@/features/marketplace/hooks/use-product"
 import type { Product } from "@/features/marketplace/types"
+import { ReviewsSection } from "@/features/reviews/components/reviews-section"
 import { useDocumentTitle } from "@/hooks/use-document-title"
 
 export function ProductDetailsPage() {
@@ -112,6 +113,14 @@ export function ProductDetailsPage() {
           <SupplierCard supplier={product.supplier} />
         </section>
       </div>
+
+      <section className="mt-16">
+        <ReviewsSection
+          productId={product.id}
+          rating={product.rating}
+          reviewCount={product.reviewCount}
+        />
+      </section>
 
       {similarProducts.length > 0 && (
         <section className="mt-16">

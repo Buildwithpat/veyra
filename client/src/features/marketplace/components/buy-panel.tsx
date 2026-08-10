@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { useCart } from "@/features/cart/hooks/use-cart"
+import { LandedCostEstimator } from "@/features/marketplace/components/landed-cost-estimator"
 import type { Product } from "@/features/marketplace/types"
 import { ContactSupplierButton } from "@/features/messaging/components/contact-supplier-button"
 import { RequestSampleButton } from "@/features/samples/components/request-sample-button"
@@ -74,6 +75,8 @@ export function BuyPanel({ product }: { product: Product }) {
           <span className="text-muted-foreground">Estimated subtotal</span>
           <span className="text-foreground font-semibold">{formatPrice(subtotal)}</span>
         </div>
+
+        <LandedCostEstimator product={product} quantity={quantity} />
 
         <Button size="lg" className="w-full gap-2" onClick={handleAddToCart}>
           <ShoppingCart className="size-4" />

@@ -49,6 +49,17 @@ const DashboardMessagesPage = lazy(() =>
     default: m.DashboardMessagesPage,
   })),
 )
+const DashboardRfqsPage = lazy(() =>
+  import("@/pages/dashboard-rfqs-page").then((m) => ({ default: m.DashboardRfqsPage })),
+)
+const DashboardRfqDetailPage = lazy(() =>
+  import("@/pages/dashboard-rfq-detail-page").then((m) => ({
+    default: m.DashboardRfqDetailPage,
+  })),
+)
+const SupplierRfqsPage = lazy(() =>
+  import("@/pages/supplier-rfqs-page").then((m) => ({ default: m.SupplierRfqsPage })),
+)
 const OnboardingPage = lazy(() =>
   import("@/pages/onboarding-page").then((m) => ({ default: m.OnboardingPage })),
 )
@@ -163,6 +174,14 @@ const router = createBrowserRouter([
                 path: "dashboard/messages",
                 element: withSuspense(<DashboardMessagesPage />),
               },
+              {
+                path: "dashboard/rfqs",
+                element: withSuspense(<DashboardRfqsPage />),
+              },
+              {
+                path: "dashboard/rfqs/:id",
+                element: withSuspense(<DashboardRfqDetailPage />),
+              },
             ],
           },
         ],
@@ -215,6 +234,10 @@ const router = createBrowserRouter([
               {
                 path: "supplier/messages",
                 element: withSuspense(<DashboardMessagesPage />),
+              },
+              {
+                path: "supplier/rfqs",
+                element: withSuspense(<SupplierRfqsPage />),
               },
             ],
           },

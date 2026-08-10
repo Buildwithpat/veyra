@@ -68,3 +68,11 @@ Desktop.ini
 # =========================
 *.pid
 *.seed
+
+# =========================
+# Internal notes (not part of the product)
+# =========================
+demo_script.md
+interview.md
+deployment_checklist.md
+project_info.md

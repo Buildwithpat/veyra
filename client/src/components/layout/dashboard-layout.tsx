@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Link, Outlet, useLocation } from "react-router-dom"
 import {
+  FileText,
   Heart,
   LayoutDashboard,
   LogOut,
@@ -11,14 +12,28 @@ import {
   User,
 } from "lucide-react"
 
+import { VeyraMark } from "@/components/shared/veyra-mark"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
+import { AssistantTrigger } from "@/features/assistant/components/assistant-trigger"
 import { useAuth } from "@/features/auth/hooks/use-auth"
 import { cn } from "@/lib/utils"
+
+function VeyraWordmark() {
+  return (
+    <span className="flex items-center gap-2">
+      <span className="bg-primary text-primary-foreground flex size-7 shrink-0 items-center justify-center rounded-lg">
+        <VeyraMark className="size-4" />
+      </span>
+      <span className="text-lg font-semibold tracking-tight">Veyra</span>
+    </span>
+  )
+}
 
 const buyerLinks = [
   { to: "/dashboard", label: "Overview", icon: LayoutDashboard },
   { to: "/dashboard/orders", label: "Orders", icon: ShoppingCart },
+  { to: "/dashboard/rfqs", label: "RFQs", icon: FileText },
   { to: "/dashboard/wishlist", label: "Wishlist", icon: Heart },
   { to: "/dashboard/messages", label: "Messages", icon: MessageSquare },
   { to: "/dashboard/profile", label: "Profile", icon: User },
@@ -28,6 +43,7 @@ const supplierLinks = [
   { to: "/supplier/dashboard", label: "Overview", icon: LayoutDashboard },
   { to: "/supplier/inventory", label: "Inventory", icon: Package },
   { to: "/supplier/orders", label: "Orders", icon: ShoppingCart },
+  { to: "/supplier/rfqs", label: "RFQs", icon: FileText },
   { to: "/supplier/messages", label: "Messages", icon: MessageSquare },
   { to: "/supplier/profile", label: "Profile", icon: User },
 ]
@@ -79,8 +95,8 @@ export function DashboardLayout() {
   return (
     <div className="fixed inset-0 flex flex-col overflow-hidden md:flex-row">
       <header className="border-border/60 bg-surface flex shrink-0 items-center justify-between border-b px-4 py-3 md:hidden">
-        <Link to="/" className="text-lg font-semibold tracking-tight">
-          Veyra
+        <Link to="/">
+          <VeyraWordmark />
         </Link>
         <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
           <Button
@@ -109,8 +125,8 @@ export function DashboardLayout() {
       </header>
 
       <aside className="border-border/60 bg-surface hidden w-64 min-h-0 shrink-0 flex-col overflow-y-auto border-r px-4 py-6 md:flex">
-        <Link to="/" className="mb-8 px-2 text-lg font-semibold tracking-tight">
-          Veyra
+        <Link to="/" className="mb-8 px-2">
+          <VeyraWordmark />
         </Link>
 
         <DashboardNavLinks links={links} location={location} />
@@ -129,6 +145,8 @@ export function DashboardLayout() {
       <main className="min-h-0 min-w-0 flex-1 overflow-y-auto p-5 md:p-8">
         <Outlet />
       </main>
+
+      <AssistantTrigger />
     </div>
   )
 }
