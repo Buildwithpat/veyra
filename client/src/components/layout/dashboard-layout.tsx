@@ -77,7 +77,7 @@ export function DashboardLayout() {
   const links = user?.role === "supplier" ? supplierLinks : buyerLinks
 
   return (
-    <div className="flex h-svh flex-col overflow-hidden md:flex-row">
+    <div className="fixed inset-0 flex flex-col overflow-hidden md:flex-row">
       <header className="border-border/60 bg-surface flex shrink-0 items-center justify-between border-b px-4 py-3 md:hidden">
         <Link to="/" className="text-lg font-semibold tracking-tight">
           Veyra
@@ -108,7 +108,7 @@ export function DashboardLayout() {
         </Sheet>
       </header>
 
-      <aside className="border-border/60 bg-surface hidden w-64 shrink-0 flex-col overflow-y-auto border-r px-4 py-6 md:flex">
+      <aside className="border-border/60 bg-surface hidden w-64 min-h-0 shrink-0 flex-col overflow-y-auto border-r px-4 py-6 md:flex">
         <Link to="/" className="mb-8 px-2 text-lg font-semibold tracking-tight">
           Veyra
         </Link>
@@ -126,7 +126,7 @@ export function DashboardLayout() {
         </Button>
       </aside>
 
-      <main className="flex-1 overflow-y-auto p-5 md:p-8">
+      <main className="min-h-0 min-w-0 flex-1 overflow-y-auto p-5 md:p-8">
         <Outlet />
       </main>
     </div>

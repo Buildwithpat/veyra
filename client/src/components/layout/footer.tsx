@@ -134,20 +134,12 @@ export function Footer() {
         <div className="border-footer-foreground/10 mt-16 flex flex-col items-center gap-4 border-t pt-8 text-sm sm:flex-row sm:justify-between">
           <p className="opacity-70">&copy; {new Date().getFullYear()} Veyra. Modern Textile Commerce.</p>
           <div className="flex items-center gap-5 text-xs">
-            <button
-              type="button"
-              onClick={() => deferred("Privacy policy")}
-              className="opacity-70 transition-opacity hover:opacity-100"
-            >
+            <Link to="/privacy" className="opacity-70 transition-opacity hover:opacity-100">
               Privacy
-            </button>
-            <button
-              type="button"
-              onClick={() => deferred("Terms of service")}
-              className="opacity-70 transition-opacity hover:opacity-100"
-            >
+            </Link>
+            <Link to="/terms" className="opacity-70 transition-opacity hover:opacity-100">
               Terms
-            </button>
+            </Link>
           </div>
         </div>
       </div>

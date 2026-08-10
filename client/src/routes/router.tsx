@@ -9,6 +9,8 @@ import { ProtectedRoute } from "@/components/shared/protected-route"
 import { RequireOnboarding } from "@/components/shared/require-onboarding"
 import { LandingPage } from "@/pages/landing-page"
 import { NotFoundPage } from "@/pages/not-found-page"
+import { PrivacyPage } from "@/pages/privacy-page"
+import { TermsPage } from "@/pages/terms-page"
 
 const LoginPage = lazy(() =>
   import("@/pages/login-page").then((m) => ({ default: m.LoginPage })),
@@ -111,6 +113,8 @@ const router = createBrowserRouter([
           { path: "marketplace", element: withSuspense(<MarketplacePage />) },
           { path: "products/:slug", element: withSuspense(<ProductDetailsPage />) },
           { path: "cart", element: withSuspense(<CartPage />) },
+          { path: "privacy", element: <PrivacyPage /> },
+          { path: "terms", element: <TermsPage /> },
         ],
       },
       {
