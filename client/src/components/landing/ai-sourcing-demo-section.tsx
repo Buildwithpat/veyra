@@ -195,7 +195,7 @@ export function AiSourcingDemoSection() {
                     </div>
                   ) : (
                     <p className="text-muted-foreground text-sm">
-                      No live matches for that yet — try a different brief, or ask the assistant
+                      No live matches for that yet. Try a different brief, or ask the assistant
                       directly.
                     </p>
                   )}
