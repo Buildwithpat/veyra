@@ -371,7 +371,7 @@ export const products = [
     rating: 4.6,
     reviewCount: 39,
     description:
-      "Translucent, softly textured chiffon that floats beautifully in gathers and layers — a staple for bridal and eveningwear.",
+      "Translucent, softly textured chiffon that floats beautifully in gathers and layers, a staple for bridal and eveningwear.",
     tags: ["sheer", "bridal", "luxury"],
     featured: false,
     createdAt: "2026-01-22",
@@ -421,7 +421,7 @@ export const products = [
     rating: 4.7,
     reviewCount: 73,
     description:
-      "Certified European Flax linen with a soft, stonewashed hand — breathable and durable for garments and home textiles alike.",
+      "Certified European Flax linen with a soft, stonewashed hand that stays breathable and durable for garments and home textiles alike.",
     tags: ["breathable", "certified", "stonewashed"],
     featured: true,
     createdAt: "2026-03-11",
@@ -596,7 +596,7 @@ export const products = [
     rating: 4.9,
     reviewCount: 41,
     description:
-      "A dense, luxurious coating fabric with real cashmere softness against a durable wool base — built for outerwear that lasts.",
+      "A dense, luxurious coating fabric with real cashmere softness against a durable wool base, built for outerwear that lasts.",
     tags: ["luxury", "outerwear", "coating"],
     featured: true,
     createdAt: "2026-05-15",
@@ -621,7 +621,7 @@ export const products = [
     rating: 4.7,
     reviewCount: 22,
     description:
-      "Fine worsted wool with a smooth, refined surface — the standard choice for tailored suiting and structured blazers.",
+      "Fine worsted wool with a smooth, refined surface, the standard choice for tailored suiting and structured blazers.",
     tags: ["suiting", "refined", "tailoring"],
     featured: false,
     createdAt: "2026-02-19",
@@ -721,7 +721,7 @@ export const products = [
     rating: 4.6,
     reviewCount: 91,
     description:
-      "A staple single jersey with a soft, even face and reliable stretch recovery — the backbone of any basics program.",
+      "A staple single jersey with a soft, even face and reliable stretch recovery, the backbone of any basics program.",
     tags: ["basics", "t-shirt", "stretch"],
     featured: true,
     createdAt: "2026-05-06",
@@ -796,7 +796,7 @@ export const products = [
     rating: 4.8,
     reviewCount: 54,
     description:
-      "Fully traceable GOTS-certified organic jersey with a soft, natural hand — a clean option for conscious basics lines.",
+      "Fully traceable GOTS-certified organic jersey with a soft, natural hand, a clean option for conscious basics lines.",
     tags: ["organic", "certified", "traceable"],
     featured: true,
     createdAt: "2026-04-23",
@@ -896,7 +896,7 @@ export const products = [
     rating: 4.8,
     reviewCount: 15,
     description:
-      "A refined blend combining silk's subtle luster with wool's structure — built for premium tailoring lines.",
+      "A refined blend combining silk's subtle luster with wool's structure, built for premium tailoring lines.",
     tags: ["luxury", "suiting", "lustrous"],
     featured: false,
     createdAt: "2026-03-27",
@@ -946,7 +946,7 @@ export const products = [
     rating: 4.6,
     reviewCount: 34,
     description:
-      "A classic 8-wale corduroy with a deep, even pile and soft brushed back — built for outerwear, trousers and accessories that need texture.",
+      "A classic 8-wale corduroy with a deep, even pile and soft brushed back, built for outerwear, trousers and accessories that need texture.",
     tags: ["textured", "wale", "outerwear"],
     featured: false,
     createdAt: "2026-05-24",
@@ -971,7 +971,7 @@ export const products = [
     rating: 4.5,
     reviewCount: 47,
     description:
-      "A basketweave cotton Oxford with a substantial, breathable hand — the standard for button-down shirting.",
+      "A basketweave cotton Oxford with a substantial, breathable hand, the standard for button-down shirting.",
     tags: ["shirting", "basketweave", "breathable"],
     featured: false,
     createdAt: "2026-06-02",
@@ -1071,7 +1071,7 @@ export const products = [
     rating: 4.6,
     reviewCount: 16,
     description:
-      "A matte, slightly crinkled georgette with airy movement — a step sheerer and drapier than chiffon for flowing silhouettes.",
+      "A matte, slightly crinkled georgette with airy movement, a step sheerer and drapier than chiffon for flowing silhouettes.",
     tags: ["sheer", "matte", "drape"],
     featured: false,
     createdAt: "2026-05-18",
@@ -1096,7 +1096,7 @@ export const products = [
     rating: 4.8,
     reviewCount: 20,
     description:
-      "A flecked Donegal-style tweed with a rustic, nubby texture — a heritage choice for outerwear and structured tailoring.",
+      "A flecked Donegal-style tweed with a rustic, nubby texture, a heritage choice for outerwear and structured tailoring.",
     tags: ["heritage", "flecked", "outerwear"],
     featured: false,
     createdAt: "2026-04-05",
@@ -1146,7 +1146,7 @@ export const products = [
     rating: 4.3,
     reviewCount: 29,
     description:
-      "A pebbled, matte-finish crepe with excellent drape and zero shine — a dependable base for tops, dresses and linings.",
+      "A pebbled, matte-finish crepe with excellent drape and zero shine, a dependable base for tops, dresses and linings.",
     tags: ["matte", "drape", "affordable"],
     featured: false,
     createdAt: "2026-05-12",
@@ -1171,7 +1171,7 @@ export const products = [
     rating: 4.4,
     reviewCount: 41,
     description:
-      "A brushed, anti-pill polar fleece with dense loft and warmth-to-weight — a staple for midlayers and loungewear.",
+      "A brushed, anti-pill polar fleece with dense loft and warmth-to-weight, a staple for midlayers and loungewear.",
     tags: ["midlayer", "warm", "anti-pill"],
     featured: false,
     createdAt: "2026-03-19",
@@ -1221,7 +1221,7 @@ export const products = [
     rating: 4.5,
     reviewCount: 22,
     description:
-      "A looped-face, brushed-back French terry with a soft interior — the go-to knit for sweatshirts and joggers.",
+      "A looped-face, brushed-back French terry with a soft interior, the go-to knit for sweatshirts and joggers.",
     tags: ["sweatshirt", "brushed", "loungewear"],
     featured: true,
     createdAt: "2026-06-18",
@@ -1246,7 +1246,7 @@ export const products = [
     rating: 4.4,
     reviewCount: 14,
     description:
-      "A textured honeycomb waffle knit with natural thermal pockets — suited to base layers and textured essentials.",
+      "A textured honeycomb waffle knit with natural thermal pockets, suited to base layers and textured essentials.",
     tags: ["textured", "thermal", "essentials"],
     featured: false,
     createdAt: "2026-06-22",
@@ -1271,7 +1271,7 @@ export const products = [
     rating: 4.2,
     reviewCount: 31,
     description:
-      "An affordable poly-cotton jersey with a heathered face and good shape retention — a workhorse for high-volume basics.",
+      "An affordable poly-cotton jersey with a heathered face and good shape retention, a workhorse for high-volume basics.",
     tags: ["basics", "high-volume", "affordable"],
     featured: false,
     createdAt: "2026-05-08",
@@ -1296,7 +1296,7 @@ export const products = [
     rating: 4.7,
     reviewCount: 19,
     description:
-      "A silky-soft bamboo-viscose jersey with natural moisture-wicking and a cooling hand — a plant-based alternative to modal alone.",
+      "A silky-soft bamboo-viscose jersey with natural moisture-wicking and a cooling hand, a plant-based alternative to modal alone.",
     tags: ["bamboo", "moisture-wicking", "soft-hand"],
     featured: false,
     createdAt: "2026-06-28",

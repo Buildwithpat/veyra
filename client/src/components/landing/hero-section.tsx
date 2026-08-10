@@ -37,13 +37,13 @@ function distinctByWeave(products: Product[], count: number): Product[] {
 }
 
 export function HeroSection() {
-  const { data, isPending } = useFeaturedProducts()
+  const { data } = useFeaturedProducts()
 
-  // Real listings when they exist — elegant fallback samples when they
-  // don't, so the hero's centerpiece never depends on the database. Decided
-  // once the query settles (isPending gate below) so the five tiles never
-  // mount on fallback data and then remount-swap to real data mid-load —
-  // that swap replayed every tile's entrance animation as a visible "pop."
+  // Real listings when they exist, elegant fallback samples immediately
+  // otherwise — the hero paints instantly regardless of how long the API
+  // takes to answer, then quietly swaps to real data once it arrives.
+  // HeroFabricTile has no mount-in animation of its own, so that swap is a
+  // clean cut, not a visible "pop."
   const tileProducts: Product[] = useMemo(() => {
     const real = distinctByWeave(data?.items ?? [], tileLayouts.length)
     if (real.length >= tileLayouts.length) return real
@@ -118,29 +118,20 @@ export function HeroSection() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="relative h-[440px] sm:h-[500px] lg:h-[540px]"
         >
-          {isPending
-            ? tileLayouts.map((layout, index) => (
-                <div
-                  key={index}
-                  className={`bg-muted absolute animate-pulse rounded-2xl ${layout.className}`}
-                  style={{ zIndex: index }}
-                  aria-hidden
-                />
-              ))
-            : tileProducts.map((product, index) => {
-                const layout = tileLayouts[index]
-                return (
-                  <HeroFabricTile
-                    key={product.id}
-                    product={product}
-                    className={`absolute ${layout.className}`}
-                    rotate={layout.rotate}
-                    floatDuration={layout.floatDuration}
-                    floatDelay={index * 0.3}
-                    style={{ zIndex: index }}
-                  />
-                )
-              })}
+          {tileProducts.map((product, index) => {
+            const layout = tileLayouts[index]
+            return (
+              <HeroFabricTile
+                key={product.id}
+                product={product}
+                className={`absolute ${layout.className}`}
+                rotate={layout.rotate}
+                floatDuration={layout.floatDuration}
+                floatDelay={index * 0.3}
+                style={{ zIndex: index }}
+              />
+            )
+          })}
         </motion.div>
       </div>
     </section>
