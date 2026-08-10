@@ -28,6 +28,26 @@ export function requireAuth(req: Request, _res: Response, next: NextFunction) {
   }
 }
 
+/** Populates `req.auth` when a valid bearer token is present, but never
+ * rejects the request — for endpoints usable both signed-out and signed-in
+ * (e.g. the assistant chat, which only needs identity for the subset of
+ * messages that trigger an authenticated action). */
+export function optionalAuth(req: Request, _res: Response, next: NextFunction) {
+  const header = req.headers.authorization
+  const token = header?.startsWith("Bearer ") ? header.slice(7) : null
+
+  if (token) {
+    try {
+      req.auth = verifyAccessToken(token)
+    } catch {
+      // Invalid/expired token on an optional-auth route — proceed signed-out
+      // rather than failing the request.
+    }
+  }
+
+  next()
+}
+
 export function requireRole(...roles: Array<"buyer" | "supplier">) {
   return (req: Request, _res: Response, next: NextFunction) => {
     if (!req.auth || !roles.includes(req.auth.role)) {

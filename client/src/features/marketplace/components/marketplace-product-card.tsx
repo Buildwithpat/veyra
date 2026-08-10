@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge"
 import { useAssistantPanel } from "@/features/assistant/hooks/use-assistant-panel"
 import { useCart } from "@/features/cart/hooks/use-cart"
 import type { Product } from "@/features/marketplace/types"
+import { WishlistButton } from "@/features/wishlist/components/wishlist-button"
 import { countryFlag } from "@/lib/country-flags"
 import { formatNumber, formatPrice } from "@/lib/format"
 import { computeMatchScore } from "@/lib/match-score"
@@ -125,10 +126,13 @@ export function MarketplaceProductCard({
                 <AvailabilityBadge availability={product.availability} />
               </div>
               <div className="flex flex-col items-end gap-1.5">
-                <span className="bg-primary/90 flex items-center gap-1 rounded-full px-2 py-1 text-[10px] font-semibold text-white">
-                  <VeyraAiIcon className="size-3" />
-                  {matchScore}%
-                </span>
+                <div className="flex items-center gap-1.5">
+                  <span className="bg-primary/90 flex items-center gap-1 rounded-full px-2 py-1 text-[10px] font-semibold text-white">
+                    <VeyraAiIcon className="size-3" />
+                    {matchScore}%
+                  </span>
+                  <WishlistButton productId={product.id} />
+                </div>
                 {/* Compact mode hides the hover quick-actions entirely (no
                     room, no hover on touch) — compare still needs a way in,
                     so it gets its own always-visible toggle here. */}

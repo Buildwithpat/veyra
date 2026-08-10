@@ -26,8 +26,10 @@ import { useAuth } from "@/features/auth/hooks/use-auth"
 import { useAssistantPanel } from "@/features/assistant/hooks/use-assistant-panel"
 import { OrderRow } from "@/features/orders/components/order-row"
 import { useOrders } from "@/features/orders/hooks/use-orders"
+import { MySampleRequestsCard } from "@/features/samples/components/my-sample-requests-card"
 import { useDocumentTitle } from "@/hooks/use-document-title"
 import { formatPrice } from "@/lib/format"
+import { bucketByDay, periodDelta } from "@/lib/trend"
 
 const quickActions = [
   {
@@ -58,11 +60,15 @@ export function DashboardPage() {
     const activeOrders = all.filter((o) => o.status !== "completed")
     const totalSpent = all.reduce((sum, o) => sum + o.total, 0)
     const supplierIds = new Set(all.flatMap((o) => o.items.map((item) => item.supplierId)))
+    const ordersPerDay = bucketByDay(all, (o) => o.createdAt, 14)
+    const spendPerDay = bucketByDay(all, (o) => o.createdAt, 14, (o) => o.total)
     return {
       totalOrders: all.length,
       activeOrders: activeOrders.length,
       totalSpent,
       supplierCount: supplierIds.size,
+      ordersPerDay,
+      spendPerDay,
     }
   }, [orders])
 
@@ -85,7 +91,13 @@ export function DashboardPage() {
         </div>
       ) : !isError ? (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          <StatCard label="Total orders" value={stats.totalOrders} icon={ShoppingBag} />
+          <StatCard
+            label="Total orders"
+            value={stats.totalOrders}
+            icon={ShoppingBag}
+            trend={stats.ordersPerDay}
+            trendDelta={periodDelta(stats.ordersPerDay)}
+          />
           <StatCard
             label="Active orders"
             value={stats.activeOrders}
@@ -96,6 +108,8 @@ export function DashboardPage() {
             label="Total spent"
             value={formatPrice(stats.totalSpent)}
             icon={Wallet}
+            trend={stats.spendPerDay}
+            trendDelta={periodDelta(stats.spendPerDay)}
           />
           <StatCard
             label="Suppliers sourced from"
@@ -140,48 +154,52 @@ export function DashboardPage() {
         </button>
       </div>
 
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <div>
-            <CardTitle className="text-base">Recent orders</CardTitle>
-            <CardDescription>Your most recently placed orders.</CardDescription>
-          </div>
-          <Button asChild variant="ghost" size="sm">
-            <Link to="/dashboard/orders">View all</Link>
-          </Button>
-        </CardHeader>
-        <CardContent>
-          {isPending ? (
-            <div className="flex flex-col gap-3">
-              {Array.from({ length: 2 }).map((_, i) => (
-                <Skeleton key={i} className="h-[72px] w-full rounded-xl" />
-              ))}
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <Card className="lg:col-span-2">
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
+              <CardTitle className="text-base">Recent orders</CardTitle>
+              <CardDescription>Your most recently placed orders.</CardDescription>
             </div>
-          ) : isError ? (
-            <EmptyState
-              icon={AlertTriangle}
-              title="Couldn't load your orders"
-              description="Something went wrong reaching the server."
-              actionLabel="Retry"
-              onAction={() => refetch()}
-            />
-          ) : recentOrders.length === 0 ? (
-            <EmptyState
-              icon={PackageSearch}
-              title="No orders yet"
-              description="Fabrics you order will show up here."
-              actionLabel="Browse marketplace"
-              onAction={() => navigate("/marketplace")}
-            />
-          ) : (
-            <div className="flex flex-col gap-3">
-              {recentOrders.map((order) => (
-                <OrderRow key={order.id} order={order} />
-              ))}
-            </div>
-          )}
-        </CardContent>
-      </Card>
+            <Button asChild variant="ghost" size="sm">
+              <Link to="/dashboard/orders">View all</Link>
+            </Button>
+          </CardHeader>
+          <CardContent>
+            {isPending ? (
+              <div className="flex flex-col gap-3">
+                {Array.from({ length: 2 }).map((_, i) => (
+                  <Skeleton key={i} className="h-[72px] w-full rounded-xl" />
+                ))}
+              </div>
+            ) : isError ? (
+              <EmptyState
+                icon={AlertTriangle}
+                title="Couldn't load your orders"
+                description="Something went wrong reaching the server."
+                actionLabel="Retry"
+                onAction={() => refetch()}
+              />
+            ) : recentOrders.length === 0 ? (
+              <EmptyState
+                icon={PackageSearch}
+                title="No orders yet"
+                description="Fabrics you order will show up here."
+                actionLabel="Browse marketplace"
+                onAction={() => navigate("/marketplace")}
+              />
+            ) : (
+              <div className="flex flex-col gap-3">
+                {recentOrders.map((order) => (
+                  <OrderRow key={order.id} order={order} />
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        <MySampleRequestsCard />
+      </div>
     </div>
   )
 }

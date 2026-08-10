@@ -1,12 +1,15 @@
 import { Link, useParams } from "react-router-dom"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, RotateCcw } from "lucide-react"
 
 import { EmptyState } from "@/components/shared/empty-state"
 import { FabricSwatch } from "@/components/shared/fabric-swatch"
 import { OrderStatusBadge } from "@/components/shared/order-status-badge"
+import { OrderStatusStepper } from "@/components/shared/order-status-stepper"
+import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useOrder } from "@/features/orders/hooks/use-order"
+import { useReorder } from "@/features/orders/hooks/use-reorder"
 import { formatPrice } from "@/lib/format"
 import { useDocumentTitle } from "@/hooks/use-document-title"
 
@@ -22,6 +25,7 @@ export function DashboardOrderDetailPage() {
   useDocumentTitle("Order Details")
   const { id } = useParams<{ id: string }>()
   const { data: order, isPending } = useOrder(id)
+  const { reorder, isReordering } = useReorder()
 
   if (isPending) {
     return (
@@ -46,24 +50,42 @@ export function DashboardOrderDetailPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div>
-        <Link
-          to="/dashboard/orders"
-          className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 text-sm"
-        >
-          <ArrowLeft className="size-3.5" />
-          Back to orders
-        </Link>
-        <div className="mt-2 flex items-center gap-3">
-          <h1 className="text-2xl font-semibold tracking-tight">
-            Order #{order.id.slice(-6).toUpperCase()}
-          </h1>
-          <OrderStatusBadge status={order.status} />
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <Link
+            to="/dashboard/orders"
+            className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 text-sm"
+          >
+            <ArrowLeft className="size-3.5" />
+            Back to orders
+          </Link>
+          <div className="mt-2 flex items-center gap-3">
+            <h1 className="text-2xl font-semibold tracking-tight">
+              Order #{order.id.slice(-6).toUpperCase()}
+            </h1>
+            <OrderStatusBadge status={order.status} />
+          </div>
+          <p className="text-muted-foreground text-sm">
+            Placed {formatOrderDate(order.createdAt)}
+          </p>
         </div>
-        <p className="text-muted-foreground text-sm">
-          Placed {formatOrderDate(order.createdAt)}
-        </p>
+        <Button
+          variant="outline"
+          size="sm"
+          className="gap-2"
+          disabled={isReordering}
+          onClick={() => reorder(order)}
+        >
+          <RotateCcw className="size-3.5" />
+          Reorder
+        </Button>
       </div>
+
+      <Card>
+        <CardContent className="pt-6">
+          <OrderStatusStepper status={order.status} />
+        </CardContent>
+      </Card>
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
         <Card className="lg:col-span-2">

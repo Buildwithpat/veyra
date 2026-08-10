@@ -5,6 +5,7 @@ import { Star } from "lucide-react"
 import { AvailabilityBadge } from "@/components/shared/availability-badge"
 import { ProductVisual } from "@/components/shared/product-visual"
 import { Badge } from "@/components/ui/badge"
+import { WishlistButton } from "@/features/wishlist/components/wishlist-button"
 import type { Product } from "@/features/marketplace/types"
 import { formatNumber, formatPrice } from "@/lib/format"
 
@@ -26,7 +27,10 @@ export function ProductCard({ product }: { product: Product }) {
           />
           <div className="absolute inset-x-3 top-3 flex items-start justify-between gap-2">
             {product.featured ? <Badge>Featured</Badge> : <span />}
-            <AvailabilityBadge availability={product.availability} />
+            <div className="flex items-center gap-1.5">
+              <AvailabilityBadge availability={product.availability} />
+              <WishlistButton productId={product.id} />
+            </div>
           </div>
         </div>
 

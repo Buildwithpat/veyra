@@ -4,6 +4,7 @@ import { ArrowLeft } from "lucide-react"
 import { EmptyState } from "@/components/shared/empty-state"
 import { FabricSwatch } from "@/components/shared/fabric-swatch"
 import { OrderStatusBadge } from "@/components/shared/order-status-badge"
+import { OrderStatusStepper } from "@/components/shared/order-status-stepper"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { OrderStatusSelect } from "@/features/supplier/components/order-status-select"
@@ -65,6 +66,12 @@ export function SupplierOrderDetailPage() {
           Placed {formatOrderDate(order.createdAt)}
         </p>
       </div>
+
+      <Card>
+        <CardContent className="pt-6">
+          <OrderStatusStepper status={order.status} />
+        </CardContent>
+      </Card>
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
         <Card className="lg:col-span-2">

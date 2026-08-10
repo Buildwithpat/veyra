@@ -39,7 +39,12 @@ export const chat = asyncHandler(async (req, res) => {
   res.flushHeaders()
 
   try {
-    for await (const event of runAssistantStream(history, question.content, context)) {
+    for await (const event of runAssistantStream(
+      history,
+      question.content,
+      context,
+      req.auth?.sub,
+    )) {
       res.write(`data: ${JSON.stringify(event)}\n\n`)
     }
   } catch (error) {

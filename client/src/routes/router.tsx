@@ -37,6 +37,16 @@ const DashboardOrderDetailPage = lazy(() =>
     default: m.DashboardOrderDetailPage,
   })),
 )
+const DashboardWishlistPage = lazy(() =>
+  import("@/pages/dashboard-wishlist-page").then((m) => ({
+    default: m.DashboardWishlistPage,
+  })),
+)
+const DashboardMessagesPage = lazy(() =>
+  import("@/pages/dashboard-messages-page").then((m) => ({
+    default: m.DashboardMessagesPage,
+  })),
+)
 const OnboardingPage = lazy(() =>
   import("@/pages/onboarding-page").then((m) => ({ default: m.OnboardingPage })),
 )
@@ -141,6 +151,14 @@ const router = createBrowserRouter([
                 path: "dashboard/orders/:id",
                 element: withSuspense(<DashboardOrderDetailPage />),
               },
+              {
+                path: "dashboard/wishlist",
+                element: withSuspense(<DashboardWishlistPage />),
+              },
+              {
+                path: "dashboard/messages",
+                element: withSuspense(<DashboardMessagesPage />),
+              },
             ],
           },
         ],
@@ -189,6 +207,10 @@ const router = createBrowserRouter([
               {
                 path: "supplier/orders/:id",
                 element: withSuspense(<SupplierOrderDetailPage />),
+              },
+              {
+                path: "supplier/messages",
+                element: withSuspense(<DashboardMessagesPage />),
               },
             ],
           },

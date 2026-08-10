@@ -9,6 +9,9 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { useCart } from "@/features/cart/hooks/use-cart"
 import type { Product } from "@/features/marketplace/types"
+import { ContactSupplierButton } from "@/features/messaging/components/contact-supplier-button"
+import { RequestSampleButton } from "@/features/samples/components/request-sample-button"
+import { WishlistButton } from "@/features/wishlist/components/wishlist-button"
 import { formatNumber, formatPrice } from "@/lib/format"
 
 export function BuyPanel({ product }: { product: Product }) {
@@ -52,7 +55,10 @@ export function BuyPanel({ product }: { product: Product }) {
               MOQ {formatNumber(product.moq)} {product.unit}s
             </p>
           </div>
-          <AvailabilityBadge availability={product.availability} />
+          <div className="flex items-center gap-1.5">
+            <AvailabilityBadge availability={product.availability} />
+            <WishlistButton productId={product.id} />
+          </div>
         </div>
 
         <Separator />
@@ -73,14 +79,13 @@ export function BuyPanel({ product }: { product: Product }) {
           <ShoppingCart className="size-4" />
           Add to cart
         </Button>
-        <Button
-          variant="outline"
-          size="lg"
-          className="w-full"
-          onClick={() => toast.info("Supplier messaging is coming in a later phase.")}
-        >
-          Contact supplier
-        </Button>
+        <ContactSupplierButton
+          supplierId={product.supplier.id}
+          supplierName={product.supplier.name}
+          productId={product.id}
+          productName={product.name}
+        />
+        <RequestSampleButton product={product} />
 
         <p className="text-muted-foreground text-center text-xs">
           Ships in {product.leadTimeDays} days &middot; Prices exclude freight and duties

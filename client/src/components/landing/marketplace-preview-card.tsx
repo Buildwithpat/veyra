@@ -2,15 +2,12 @@ import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
 
 import { inferWeaveKind, WeaveTexture } from "@/components/shared/weave-texture"
-import { Badge } from "@/components/ui/badge"
 import type { Product } from "@/features/marketplace/types"
 import { countryFlag } from "@/lib/country-flags"
 import { formatPrice } from "@/lib/format"
-import { computeMatchScore } from "@/lib/match-score"
 
 export function MarketplacePreviewCard({ product }: { product: Product }) {
   const weaveKind = inferWeaveKind(product.fabricType, product.tags)
-  const matchScore = computeMatchScore(product)
   const isRealListing = !product.id.startsWith("fallback-")
 
   const card = (
@@ -21,11 +18,6 @@ export function MarketplacePreviewCard({ product }: { product: Product }) {
     >
       <div className="relative aspect-[4/3] overflow-hidden">
         <WeaveTexture kind={weaveKind} colorHex={product.colorHex} seed={product.id} />
-        <div className="absolute top-3 right-3">
-          <span className="bg-primary/90 rounded-full px-2 py-1 text-[10px] font-semibold text-white">
-            {matchScore}% AI match
-          </span>
-        </div>
       </div>
 
       <div className="flex flex-col gap-2.5 p-4">
@@ -43,28 +35,10 @@ export function MarketplacePreviewCard({ product }: { product: Product }) {
 
         <p className="text-muted-foreground truncate text-xs">{product.supplier.name}</p>
 
-        <div className="flex items-end justify-between">
-          <div>
-            <p className="text-foreground font-semibold">
-              {formatPrice(product.pricePerUnit, product.currency)}
-              <span className="text-muted-foreground text-xs font-normal">/{product.unit}</span>
-            </p>
-            <p className="text-muted-foreground text-xs">MOQ {product.moq} {product.unit}s</p>
-          </div>
-          <p className="text-muted-foreground text-right text-xs">
-            Ships in {product.leadTimeDays}d
-          </p>
-        </div>
-
-        {product.supplier.certifications.length > 0 && (
-          <div className="flex flex-wrap gap-1 pt-1">
-            {product.supplier.certifications.slice(0, 3).map((cert) => (
-              <Badge key={cert} variant="outline" className="text-[10px]">
-                {cert}
-              </Badge>
-            ))}
-          </div>
-        )}
+        <p className="text-foreground font-semibold">
+          {formatPrice(product.pricePerUnit, product.currency)}
+          <span className="text-muted-foreground text-xs font-normal">/{product.unit}</span>
+        </p>
       </div>
     </motion.div>
   )

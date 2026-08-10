@@ -1,20 +1,13 @@
 import { useMemo } from "react"
 import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
-import { ArrowRight, Globe2, ShieldCheck } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 
 import { fallbackProducts } from "@/components/landing/fallback-products"
 import { HeroFabricTile } from "@/components/landing/hero-fabric-tile"
-import { VeyraAiIcon } from "@/components/shared/veyra-ai-icon"
 import { Button } from "@/components/ui/button"
 import { useFeaturedProducts } from "@/features/marketplace/hooks/use-featured-products"
 import type { Product } from "@/features/marketplace/types"
-
-const trustSignals = [
-  { icon: VeyraAiIcon, label: "AI-matched instantly" },
-  { icon: ShieldCheck, label: "Verified suppliers" },
-  { icon: Globe2, label: "Global sourcing network" },
-]
 
 interface TileLayout {
   className: string
@@ -80,23 +73,13 @@ export function HeroSection() {
       <div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-10 px-6 py-4 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-8">
         {/* Left — text-led */}
         <div className="flex flex-col items-start text-left">
-          <motion.span
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="border-border bg-surface text-muted-foreground mb-6 flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium"
-          >
-            <VeyraAiIcon className="size-3.5" />
-            AI-assisted fabric sourcing
-          </motion.span>
-
           <motion.h1
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35, delay: 0.05 }}
             className="font-display text-4xl leading-[1.1] font-semibold tracking-tight text-balance sm:text-5xl lg:text-6xl"
           >
-            Fabric sourcing, <span className="text-primary">powered by AI.</span>
+            The fabric sourcing <span className="text-primary">marketplace.</span>
           </motion.h1>
 
           <motion.p
@@ -109,20 +92,6 @@ export function HeroSection() {
             natural-language search, instant comparisons, and verified sourcing
             from mills worldwide.
           </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35, delay: 0.15 }}
-            className="mt-8 flex flex-wrap items-center gap-5 text-xs"
-          >
-            {trustSignals.map(({ icon: Icon, label }) => (
-              <span key={label} className="text-muted-foreground flex items-center gap-1.5">
-                <Icon className="text-primary size-3.5" />
-                {label}
-              </span>
-            ))}
-          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 12 }}

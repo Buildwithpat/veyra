@@ -2,6 +2,7 @@ import { useMemo } from "react"
 import { Link } from "react-router-dom"
 import {
   AlertTriangle,
+  ArrowRight,
   Clock,
   Package,
   PackageCheck,
@@ -25,11 +26,13 @@ import { Progress } from "@/components/ui/progress"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useAuth } from "@/features/auth/hooks/use-auth"
 import type { OrderStatus } from "@/features/orders/types"
+import { IncomingSampleRequestsCard } from "@/features/samples/components/incoming-sample-requests-card"
 import { SupplierOrderRow } from "@/features/supplier/components/supplier-order-row"
 import { useDashboardStats } from "@/features/supplier/hooks/use-dashboard-stats"
 import { useIncomingOrders } from "@/features/supplier/hooks/use-incoming-orders"
 import { useDocumentTitle } from "@/hooks/use-document-title"
 import { formatPrice } from "@/lib/format"
+import { bucketByDay, periodDelta } from "@/lib/trend"
 
 const STATUS_ORDER: OrderStatus[] = [
   "pending",
@@ -48,13 +51,22 @@ export function SupplierDashboardPage() {
   const businessStats = useMemo(() => {
     const orders = incomingOrders ?? []
     const totalRevenue = orders.reduce((sum, o) => sum + o.supplierSubtotal, 0)
-    const pendingOrders = orders.filter((o) => o.status === "pending").length
+    const pendingOrders = orders.filter((o) => o.status === "pending")
     const avgOrderValue = orders.length ? totalRevenue / orders.length : 0
     const byStatus = STATUS_ORDER.map((status) => ({
       status,
       count: orders.filter((o) => o.status === status).length,
     }))
-    return { totalRevenue, pendingOrders, avgOrderValue, byStatus, hasOrders: orders.length > 0 }
+    const revenuePerDay = bucketByDay(orders, (o) => o.createdAt, 14, (o) => o.supplierSubtotal)
+    return {
+      totalRevenue,
+      pendingOrders: pendingOrders.length,
+      avgOrderValue,
+      byStatus,
+      hasOrders: orders.length > 0,
+      revenuePerDay,
+      oldestPendingId: pendingOrders[pendingOrders.length - 1]?.id,
+    }
   }, [incomingOrders])
 
   if (isError) {
@@ -89,6 +101,27 @@ export function SupplierDashboardPage() {
           Here&apos;s how your business is performing on Veyra.
         </p>
       </div>
+
+      {!isPending && businessStats.pendingOrders > 0 && (
+        <Link to="/supplier/orders" className="group">
+          <Card className="border-warning/40 bg-warning/5 hover:border-warning/70 transition-colors">
+            <CardContent className="flex items-center gap-3 pt-6">
+              <div className="bg-warning/15 text-warning flex size-9 shrink-0 items-center justify-center rounded-lg">
+                <Clock className="size-4.5" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-foreground text-sm font-medium">
+                  {businessStats.pendingOrders} order{businessStats.pendingOrders === 1 ? "" : "s"} awaiting your response
+                </p>
+                <p className="text-muted-foreground text-xs">
+                  Accept or update status so buyers know where things stand.
+                </p>
+              </div>
+              <ArrowRight className="text-muted-foreground group-hover:text-warning size-4 shrink-0 transition-colors" />
+            </CardContent>
+          </Card>
+        </Link>
+      )}
 
       {isPending ? (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -130,6 +163,8 @@ export function SupplierDashboardPage() {
             value={formatPrice(businessStats.totalRevenue)}
             icon={Wallet}
             description="Across all orders"
+            trend={businessStats.revenuePerDay}
+            trendDelta={periodDelta(businessStats.revenuePerDay)}
           />
           <StatCard
             label="Pending orders"
@@ -185,38 +220,42 @@ export function SupplierDashboardPage() {
         </Card>
       )}
 
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <div>
-            <CardTitle className="text-base">Recent orders</CardTitle>
-            <CardDescription>Orders containing your products.</CardDescription>
-          </div>
-          <Button asChild variant="ghost" size="sm">
-            <Link to="/supplier/orders">View all</Link>
-          </Button>
-        </CardHeader>
-        <CardContent>
-          {isPending ? (
-            <div className="flex flex-col gap-3">
-              {Array.from({ length: 2 }).map((_, i) => (
-                <Skeleton key={i} className="h-[72px] w-full rounded-xl" />
-              ))}
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <Card className="lg:col-span-2">
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
+              <CardTitle className="text-base">Recent orders</CardTitle>
+              <CardDescription>Orders containing your products.</CardDescription>
             </div>
-          ) : !stats || stats.recentOrders.length === 0 ? (
-            <EmptyState
-              icon={PackageSearch}
-              title="No orders yet"
-              description="Orders containing your fabrics will show up here."
-            />
-          ) : (
-            <div className="flex flex-col gap-3">
-              {stats.recentOrders.map((order) => (
-                <SupplierOrderRow key={order.id} order={order} />
-              ))}
-            </div>
-          )}
-        </CardContent>
-      </Card>
+            <Button asChild variant="ghost" size="sm">
+              <Link to="/supplier/orders">View all</Link>
+            </Button>
+          </CardHeader>
+          <CardContent>
+            {isPending ? (
+              <div className="flex flex-col gap-3">
+                {Array.from({ length: 2 }).map((_, i) => (
+                  <Skeleton key={i} className="h-[72px] w-full rounded-xl" />
+                ))}
+              </div>
+            ) : !stats || stats.recentOrders.length === 0 ? (
+              <EmptyState
+                icon={PackageSearch}
+                title="No orders yet"
+                description="Orders containing your fabrics will show up here."
+              />
+            ) : (
+              <div className="flex flex-col gap-3">
+                {stats.recentOrders.map((order) => (
+                  <SupplierOrderRow key={order.id} order={order} />
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        <IncomingSampleRequestsCard />
+      </div>
     </div>
   )
 }

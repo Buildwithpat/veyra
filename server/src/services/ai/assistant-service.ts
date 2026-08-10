@@ -1,4 +1,9 @@
 import type { PublicProduct } from "../../utils/serialize-product.js"
+import {
+  detectSendMessageCommand,
+  executeSendMessageAction,
+  sendMessageRequiresSignIn,
+} from "./actions.js"
 import { parseIntent } from "./intent.js"
 import { buildMessages } from "./prompt.js"
 import { getAiProvider } from "./providers/index.js"
@@ -31,7 +36,30 @@ export async function* runAssistantStream(
   history: ChatMessage[],
   question: string,
   context?: AssistantContext,
+  senderId?: string,
 ): AsyncGenerator<AssistantStreamEvent> {
+  // "Send a message to X about Y: ..." is an action, not a question — resolve
+  // and dispatch it directly rather than routing it through retrieval + the
+  // LLM, since it needs an exact, verifiable outcome (a message either sent
+  // or not), not a generated answer.
+  const sendMessageCommand = detectSendMessageCommand(question)
+  if (sendMessageCommand) {
+    const result = senderId
+      ? await executeSendMessageAction(sendMessageCommand, senderId)
+      : sendMessageRequiresSignIn()
+
+    for (const chunk of result.chunks) {
+      yield { type: "chunk", content: chunk }
+    }
+    yield {
+      type: "done",
+      sources: result.sources,
+      suggestedPrompts: [],
+      provider: "action",
+    }
+    return
+  }
+
   const intent = parseIntent(question)
   const sources = await retrieveProducts(intent, context)
   const provider = getAiProvider()

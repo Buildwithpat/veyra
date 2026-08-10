@@ -1,6 +1,15 @@
 import { useState } from "react"
 import { Link, Outlet, useLocation } from "react-router-dom"
-import { LayoutDashboard, LogOut, Menu, Package, ShoppingCart, User } from "lucide-react"
+import {
+  Heart,
+  LayoutDashboard,
+  LogOut,
+  MessageSquare,
+  Menu,
+  Package,
+  ShoppingCart,
+  User,
+} from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
@@ -10,6 +19,8 @@ import { cn } from "@/lib/utils"
 const buyerLinks = [
   { to: "/dashboard", label: "Overview", icon: LayoutDashboard },
   { to: "/dashboard/orders", label: "Orders", icon: ShoppingCart },
+  { to: "/dashboard/wishlist", label: "Wishlist", icon: Heart },
+  { to: "/dashboard/messages", label: "Messages", icon: MessageSquare },
   { to: "/dashboard/profile", label: "Profile", icon: User },
 ]
 
@@ -17,6 +28,7 @@ const supplierLinks = [
   { to: "/supplier/dashboard", label: "Overview", icon: LayoutDashboard },
   { to: "/supplier/inventory", label: "Inventory", icon: Package },
   { to: "/supplier/orders", label: "Orders", icon: ShoppingCart },
+  { to: "/supplier/messages", label: "Messages", icon: MessageSquare },
   { to: "/supplier/profile", label: "Profile", icon: User },
 ]
 

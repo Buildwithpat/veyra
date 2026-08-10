@@ -90,8 +90,8 @@ export function Footer() {
               <span className="font-display text-xl font-semibold tracking-tight">Veyra</span>
             </Link>
             <p className="mt-4 text-sm leading-relaxed opacity-70">
-              A modern B2B marketplace connecting fabric buyers and verified suppliers worldwide,
-              with AI-assisted sourcing at every step.
+              A B2B marketplace connecting fabric buyers and suppliers worldwide — search, compare
+              and order fabric in one place.
             </p>
 
             <div>

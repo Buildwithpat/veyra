@@ -49,11 +49,6 @@ export function CtaSection() {
 
           <div className="grid grid-cols-1 items-center gap-10 px-8 py-16 sm:px-12 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:gap-6 lg:py-20">
             <div className="flex flex-col items-start text-left">
-              <span className="border-border bg-card text-muted-foreground mb-5 inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium">
-                <VeyraAiIcon className="text-primary size-3.5" />
-                AI-assisted sourcing, ready when you are
-              </span>
-
               <h2 className="font-display text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
                 Ready to source smarter?
               </h2>

@@ -32,8 +32,8 @@ export function MarketplacePreviewSection() {
             title="Real listings, live from the marketplace"
             description={
               usingFallback
-                ? "Fabric, supplier, pricing and AI match — sample listings shown while the marketplace catalog fills in."
-                : "Fabric, supplier, pricing and AI match — no screenshots, no placeholders."
+                ? "Fabric, supplier and pricing — sample listings shown while the marketplace catalog fills in."
+                : "Fabric, supplier and pricing — no screenshots, no placeholders."
             }
           />
           <Button asChild variant="outline" className="shrink-0 gap-2">
